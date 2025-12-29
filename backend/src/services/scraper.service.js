@@ -1,5 +1,6 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
+const puppeteer = require("puppeteer");
 const { ApiError } = require("../utils/ApiError");
 
 /**
@@ -134,6 +135,75 @@ const scrapeArticleDetail = async (url) => {
     };
 };
 
+
+/**
+ * Scrapes generic text content from any URL using Puppeteer.
+ * @param {string} url 
+ * @returns {Promise<string>} Cleaned text content
+ */
+const scrapeGenericUrl = async (url) => {
+    console.log(`[Generic Scraper] Visit: ${url}`);
+    let browser = null;
+
+    try {
+        browser = await puppeteer.launch({
+            headless: "new",
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+        });
+
+        const page = await browser.newPage();
+
+        // Block resources to speed up
+        await page.setRequestInterception(true);
+        page.on('request', (req) => {
+            if (['image', 'stylesheet', 'font', 'media'].includes(req.resourceType())) {
+                req.abort();
+            } else {
+                req.continue();
+            }
+        });
+
+        // Set user agent to avoid bot detection
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+
+        // Navigate with timeout
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+
+        // Extract Text from Paragraphs
+        const content = await page.evaluate(() => {
+            // Helper to clean text
+            const cleanText = (txt) => txt.replace(/\s+/g, ' ').trim();
+
+            const pTags = Array.from(document.querySelectorAll('p'));
+
+            return pTags
+                .map(p => cleanText(p.innerText))
+                // Filter short/navigational text
+                .filter(txt => txt.length > 50)
+                // Filter cookie warnings
+                .filter(txt => !txt.toLowerCase().includes("cookie policy"))
+                .join('\n\n');
+        });
+
+        if (!content || content.length < 100) {
+            console.warn(`[Generic Scraper] Warning: Low content length (${content?.length}) for ${url}`);
+            // Fallback: Try collecting all body text if P tags fail
+            const bodyText = await page.evaluate(() => document.body.innerText);
+            return bodyText.length > 200 ? bodyText.substring(0, 5000) : "";
+        }
+
+        return content;
+
+    } catch (error) {
+        console.error(`[Generic Scraper] Failed to scrape ${url}: ${error.message}`);
+        // Do NOT throw. The agent should continue even if one source fails.
+        return "";
+    } finally {
+        if (browser) await browser.close();
+    }
+};
+
 module.exports = {
-    getOldestArticles
+    getOldestArticles,
+    scrapeGenericUrl
 };
