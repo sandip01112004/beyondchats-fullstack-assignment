@@ -6,8 +6,8 @@ import api from './axios';
  */
 export const fetchArticles = async () => {
     try {
-        constresponse = await api.get('/articles');
-        return response.data; // Assuming backend returns { data: [...] } or [...]
+        const response = await api.get('/articles');
+        return response.data.data; // Wraps { statusCode, data, message }
     } catch (error) {
         console.error("Error fetching articles:", error);
         throw error;
@@ -22,7 +22,7 @@ export const fetchArticles = async () => {
 export const fetchArticleById = async (id) => {
     try {
         const response = await api.get(`/articles/${id}`);
-        return response.data;
+        return response.data.data;
     } catch (error) {
         console.error(`Error fetching article ${id}:`, error);
         throw error;
