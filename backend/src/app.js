@@ -8,8 +8,7 @@ const app = express();
 
 // Global Middleware
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || "*",
-    credentials: true,
+    origin: "*"
 }));
 app.use(helmet());
 app.use(morgan("dev"));
