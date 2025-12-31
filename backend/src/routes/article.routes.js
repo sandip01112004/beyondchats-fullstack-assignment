@@ -10,6 +10,9 @@ router.route("/")
 router.route("/scrape")
     .post(articleController.scrapeArticles);
 
+router.route("/reset")
+    .delete(articleController.resetArticles);
+
 router.route("/:id")
     .get(articleController.getArticle)
     .patch(articleController.updateArticle)

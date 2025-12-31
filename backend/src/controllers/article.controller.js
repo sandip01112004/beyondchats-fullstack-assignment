@@ -70,11 +70,17 @@ const scrapeArticles = catchAsync(async (req, res) => {
     res.status(200).json(new ApiResponse(200, savedArticles, `Scraped ${scrapedData.length} articles, saved ${savedArticles.length} new ones.`));
 });
 
+const resetArticles = catchAsync(async (req, res) => {
+    const deletedCount = await articleService.deleteAllArticles();
+    res.status(200).json(new ApiResponse(200, { deletedCount }, "All articles deleted successfully"));
+});
+
 module.exports = {
     getArticles,
     getArticle,
     createArticle,
     updateArticle,
     deleteArticle,
-    scrapeArticles
+    scrapeArticles,
+    resetArticles
 };

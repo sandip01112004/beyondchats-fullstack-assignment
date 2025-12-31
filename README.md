@@ -1,64 +1,95 @@
-# AI Content Agent - Full Stack Internship Assignment
+# AI Content Curator - Internship Assignment
+![Status](https://img.shields.io/badge/Status-Completed-success) ![Stack](https://img.shields.io/badge/Stack-MERN-blue)
 
-A full-stack application that scrapes blog articles, processes them using **Gemini AI** to rewrite the content, and displays the results in a clean dashboard.
+A full-stack application that automates content curation. It scrapes blog articles, rewrites them using Google Gemini AI, and presents them in a clean dashboard for review.
 
-## 🏗 Architecture
+---
 
-The system consists of two main components:
+## ✅ Feature vs. Requirement Mapping
 
-1.  **Backend (Node.js/Express)**
-    *   **Scraper Service**: Uses Puppeteer to extract content from URLs.
-    *   **Search Service**: Finds competitor articles for context.
-    *   **AI Service**: Integreates Google Gemini 2.5 Flash to rewrite articles.
-    *   **Agent Service**: Orchestrates the fetch -> scrape -> rewrite pipeline.
-    *   **Database**: MongoDB Atlas for persistence.
+| Assignment Requirement | Implementation Detail | Status |
+| :--- | :--- | :--- |
+| **Web Scraper** | Robust Puppeteer/Cheerio scripts to extract content. | ✅ Completed |
+| **AI Integration** | Google Gemini 2.5 Flash for high-quality rewriting. | ✅ Completed |
+| **Dashboard UI** | React-based grid view with live status updates. | ✅ Completed |
+| **Split View** | **Side-by-side comparison** of Original & Rewritten text. | ✅ Completed |
+| **No Frameworks** | Pure CSS for all styling (no proprietary libraries). | ✅ Completed |
 
-2.  **Frontend (React/Vite)**
-    *   **Dashboard**: Overview of articles with live status badges.
-    *   **Detail View**: Split-screen comparison of Original vs Rewritten content.
-    *   **Tech**: React 19, Axios, Pure CSS (Responsive).
+---
 
-## 🚀 Quick Start
+## 🚀 Reviewer Guide: How to Test
 
-### Prerequisites
-- Node.js (v18+)
-- MongoDB Atlas URI
-- Gemini API Key
+Follow these simple steps to see the entire pipeline in action:
 
-### 1. Backend Setup
+1.  **Start Services**:
+    *   Backend: `npm start` (Runs on port 8000)
+    *   Frontend: `npm run dev` (Runs on port 5173)
+
+2.  **Open Dashboard**: Navigate to [http://localhost:5173](http://localhost:5173).
+
+3.  **Step 1: Scrape**:
+    *   Click the **"Scrape Articles"** button in the header.
+    *   *Result*: You will see articles appear with a `Scraped` badge.
+
+4.  **Step 2: Rewrite**:
+    *   Click the **"Run AI Agent"** button.
+    *   *Result*: The status will change to `Processing` and then `Rewritten`.
+
+5.  **Step 3: Compare**:
+    *   Click on any card with a `Rewritten` badge.
+    *   *Result*: You will see the **Split View** layout showing the transformation.
+
+---
+
+## 📖 How It Works (Simplified)
+
+This tool automates the lifecycle of content creation:
+
+1.  **Curate**: The system visits target blogs (e.g., BeyondChats) and reads the articles, effectively "scraping" the raw text.
+2.  **Research & Think**: The AI Agent assumes a persona. It reads the scraped content, performs background research (simulated), and creates a coherent rewriting plan.
+3.  **Rewrite**: Using Generative AI (Gemini), it produces a fresh, unique version of the article while maintaining the core message.
+4.  **Review**: The Dashboard provides a transparent look at the process. The **Split View** is critical for humans to spot-check the AI's work against the original source.
+
+---
+
+## 🛠 Technical Details
+
+### Architecture
+- **Backend**: Node.js & Express.
+- **Database**: MongoDB Atlas (Stores `Article` documents with `scraped` and `rewritten` content).
+- **Processing**: A sequential pipeline (Scrape -> Queue -> Rewrite -> Save).
+- **Frontend**: React + Vite (Fast, component-based UI).
+
+### Project Structure
+```text
+/beyond-chats
+  /backend
+    /src        # API & Agent Logic
+    /scripts    # Utility scripts (seeding, debugging)
+  /frontend
+    /src
+      /pages    # Dashboard & ArticleDetail views
+```
+
+## ⚙️ Local Development Setup
+
+If you need to install from scratch:
+
+**1. Backend**
 ```bash
 cd backend
 npm install
-# Create .env with MONGODB_URI and GEMINI_API_KEY
-npm run dev
+# Ensure .env has MONGODB_URI and GEMINI_API_KEY
+npm start
 ```
 
-### 2. Frontend Setup
+**2. Frontend**
 ```bash
 cd frontend
 npm install
-# API base URL defaults to http://localhost:8000/api/v1
 npm run dev
 ```
 
-### 3. Usage
-1.  Open `http://localhost:5173`.
-2.  If the dashboard is empty, verify the backend is running.
-3.  (Optional) Run `node backend/seed-db.js` to populate test data.
-4.  Click an article to see the AI rewriting in action.
-
-## 🛠 Features
-
-- **Automated Workflow**: From scraping to rewriting without manual intervention.
-- **Robust Error Handling**: Handles API limits, timeouts, and missing content gracefully.
-- **Modern UI**: Clean, professional interface with mobile responsiveness.
-
-## 📝 Status Indicators
-- `scraped`: Content collected, waiting for AI.
-- `processing`: Currently being rewritten by Gemini.
-- `rewritten`: Success! AI content available.
-- `failed`: Something went wrong (check logs).
-
 ---
 **Author**: Sandip Kharate
-**Assignment**: BeyondChats Full Stack Internship
+**Role**: Full Stack Intern Applicant

@@ -30,10 +30,16 @@ const deleteArticleById = async (id) => {
     return article;
 };
 
+const deleteAllArticles = async () => {
+    const result = await Article.deleteMany({});
+    return result.deletedCount;
+};
+
 module.exports = {
     createArticle,
     queryArticles,
     getArticleById,
     updateArticleById,
-    deleteArticleById
+    deleteArticleById,
+    deleteAllArticles
 };

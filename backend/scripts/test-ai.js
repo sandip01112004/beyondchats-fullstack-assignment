@@ -1,5 +1,5 @@
-require('dotenv').config();
-const aiService = require('./src/services/ai.service');
+require('dotenv').config({ path: '../.env' });
+const aiService = require('../src/services/ai.service');
 
 async function testRewrite() {
     console.log("Testing AI Service...");

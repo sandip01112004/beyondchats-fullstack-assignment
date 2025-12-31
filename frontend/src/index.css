@@ -143,3 +143,42 @@ h1 {
 .btn-primary:hover {
   opacity: 0.9;
 }
+
+/* Dashboard Controls */
+.header-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.action-status {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.btn-secondary {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.btn-secondary:disabled,
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

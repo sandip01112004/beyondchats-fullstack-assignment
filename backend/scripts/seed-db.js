@@ -1,6 +1,6 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 const mongoose = require('mongoose');
-const { Article } = require('./src/models/Article');
+const { Article } = require('../src/models/Article');
 
 const MONGO_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/beyond-chats";
 

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchArticleById } from '../api/articles';
 
+import './ArticleDetail.css';
+
 const ArticleDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -56,7 +58,7 @@ const ArticleDetail = () => {
             <div className="comparison-layout">
                 {/* Left Column: Original */}
                 <div className="article-column original-col">
-                    <h2>Original Content</h2>
+                    <h2>Original Article</h2>
                     {originalArticle ? (
                         <div className="article-content">
                             <h3>{originalArticle.title}</h3>
@@ -73,7 +75,7 @@ const ArticleDetail = () => {
 
                 {/* Right Column: Rewritten */}
                 <div className="article-column rewritten-col">
-                    <h2>Rewritten Content</h2>
+                    <h2>AI Rewritten Article</h2>
                     {rewrittenArticle ? (
                         <div className="article-content">
                             <h3>{rewrittenArticle.title}</h3>

@@ -19,9 +19,11 @@ app.use(express.static("public"));
 
 // Routes Import
 const articleRouter = require("./routes/article.routes");
+const agentRouter = require("./routes/agent.routes");
 
 // Routes Declaration
 app.use("/api/v1/articles", articleRouter);
+app.use("/api/v1/agent", agentRouter);
 
 // Base route
 app.get("/", (req, res) => {
